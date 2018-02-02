@@ -1,63 +1,73 @@
-    <script type="text/javascript">
+//array of computerChoices
+
+var computerChoices = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+// variables total number of wins, losses, userInput, userInputArray, computerInput
+
+var wins = 0;
+var losses = 0;
+var guessesLeft = 9;
+var userInput = String.fromCharCode().toLowerCase();
+var computerInput = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+var allKeysPressed = "";
 
 
-    
-    // create an array that lists all of the options that can be selected. in this case the alphabet. Computer picks a random letter somehow and it is compared against the letter selectec by the user.
-        var computerGuesses = [ 'a', 'b', 'c', 'd', 'e', 'f', 'g','h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u','v', 'w', 'x','y','z' ]
+// computer selects random letter from computerChoices array at the beginning of the game
+function updateComputerChoices() {
+    var randVal = Math.floor(Math.random() * computerChoices.length)
+    console.log("rand=" + randVal);
+    computerInput = computerChoices[randVal];
+}
 
+//user letter selected on key up
+document.onkeyup = function (event) {
+    userInput = event.key;
+
+
+
+//--Needs work. The game is still allowing double guesses and is reducing the score when double guess happens. Attempted code below and still need to find a solution to this issue.
+
+    //allKeysPressed = allKeysPressed +  userInput;
+    //if (allKeysPressed.indexOf(computerChoices) < 0 && allKeysPressed.indexOf(computerChoices) >= 0) {
+    //alert("The sound of one hand clapping.");
+
+
+
+
+// if the userInput === computerInput is true, wins increase by one, alert message plays, guess counter starts at 10, and guess counter resets to 10 if true, and computer selects a random letter. 
+
+if (userInput === computerInput) {
+    wins++ , alert("You are a genius!");
+    guessesLeft === 10;
+    document.getElementById("userInput").innerHTML = userInput = " ";
+    updateComputerChoices();
+}
         
+// if not true guesses decrease by one
 
-    // variables ot hole number of wins, losses, guessLeft, and lettersGuessed
+else {
+    guessesLeft--;
+}
 
-        var wins = 0;
-        var losses = 0;
-        //var guessesLeft =  x = 9--# of times a letters was pressed
-        //var lettersGuessed = array that captures letter key pressed. 9 indexes long. 
-    
-    // Use the document object to grab elements in our markup for the scoreboard
-    //var userWins = document.getElementById('userWins');
+// when guess counter === 0 is true, the losses counter increases by one, alert plays with message, guess counter resets to 10, and computer selects new letter.
 
-    //var lettersGuessed = document.getElementById('lettersGuessed');
+if (guessesLeft === 0) {
+    losses++ , alert("Please try again.");
+    guessesLeft = 10;
+    document.getElementById("userInput").innerHTML = userInput = " ";
+    updateComputerChoices();
+}
 
+//document.getElementById writes scores to scoreboard
 
-        //the game is to guess the letter that the computer is "thinking about", to guess the letter within a certain number of tries.
-
-        //The Psychic Game - Guess what letter I'm thinking of:
-
-        // use document object to grap elemens in our markup for the scoreboard. var ... =document.getElementBId("user-guess");
-
-        // create scoreboard. variables to contain win loss data, number of guess, and letters guessed losses++
-
-        // Wins: Var wins starts at 0. If you guess the correct letter, wins number increases by one. wins++ Game resets.
-
-        // Losses: Var losses starts at 9\. If you do not guess the letter within 9 tries the losses number increases by one. Game resets. losses++
-
-        // Guesses Left: each time a key is press the number 9 decreases by one in this variable.The variable is shown on the screen. Varable restarts at 9 when ever the game resets.  Games starts with 9 guesses. With each false guess the number of guesses decreases by one until it reaches zero and losses number increases by one and game starts over. loss--
-
-        // Your Guesses so far: Each letter guesed is displayed in an array after guesses so far: The array clears when the letter is guessed or the number of letters in the array equals 9 total.
-
-        // It woud be nice if the game said You win when the win number increased, or I win when the losses number increases.
-
-        //event key is pressed. Using CharAt letter is turned into a number. That numberis compared to the computer generated alphabetnumber that created by using CharA
+document.getElementById("userWins").innerHTML = wins;
+document.getElementById("userLosses").innerHTML = losses;
+document.getElementById("guessesLeft").innerHTML = guessesLeft;
+document.getElementById("userInput").innerHTML += userInput + " ";
 
 
-        // logic if (user letter === computer letter) { wins increase by one, game resets;} else if { (user letter is not computer letter) number of guesses decreases from 9 by 1, letters guessed displays letter,} else if...pattern repeats until x > 9.
+console.log(wins + " user = " + userInput + " comp= " + computerInput);
 
-        // if a letter is pressed twice it isn't added to the guessesList and it doesn't countas a guess
-
-        //on key stroke, decide if it is when pressed or when finger lets go of key, 
-
-        // Wins and losses total. They do not reset. Only start over at zero again when game is restarted.
-
-   // This function is run whenever the user presses a key.
-//    document.onkeyup = function(event) {
-
-// // Determines which key was pressed.
-// var userGuess = event.key;
-
-// // Randomly chooses a choice from the options array. This is the Computer's guess.
-// var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-      
-        
-        
-    </script>
+}
+    //console.log(wins + " user = " + userInput + " comp= " + computerInput);
+    //trying to write code so that repeated keystrokes register in guessesleft
